@@ -608,6 +608,8 @@ function setStrip(on) {
   if (total) { layout(); show(); }
 }
 $("thumbToggle").onchange = e => setStrip(e.target.checked);
+// ?view=slideshow (used by the resume game's "Back to Slideshow" link) turns slideshow view on
+try { if (new URLSearchParams(location.search).get("view") === "slideshow") localStorage.setItem("deckroom-thumbs", "1"); } catch {}
 try { if (localStorage.getItem("deckroom-thumbs") === "1") { $("thumbToggle").checked = true; $("strip").hidden = false; } } catch {}
 
 /* ---------- Layout ---------- */
