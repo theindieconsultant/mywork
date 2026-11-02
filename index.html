@@ -467,6 +467,19 @@ $("pwToggle").addEventListener("click", () => {
   window.moveTalksToHeader = () => { close(false); $("barMid").appendChild($("topLinks")); };
 })();
 
+/* ---------- Visitor + avatar from the resume game (same site, same browser storage) ---------- */
+// Paste the same Apps Script web-app URL as the resume game. Empty = nothing is logged.
+const LOG_URL = "";
+const AVATAR_NAMES = { lover: "The Curious People-Lover", tester: "The Diplomatic Ideas Tester", challenger: "The Challenger / Advocate",
+  artist: "The Pixel-Perfect Artist", dev: "The Prototypin’ Dev Wannabe", writer: "The Word-Lovin’ Content Strategist",
+  guru: "The Tech Guru Experimenter", expert: "The Skilled Domain Expert", mentor: "The Proven Leader / Mentor" };
+function hlVid() { try { let v = localStorage.getItem("hl-vid"); if (!v) { v = "v-" + Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem("hl-vid", v); } return v; } catch (_) { return "unknown"; } }
+function hlAvatar() { try { return localStorage.getItem("hl-avatar") || ""; } catch (_) { return ""; } }
+function hlLog(event, extra) {
+  if (!LOG_URL || (window.claude && typeof window.claude.use === "function")) return;
+  const body = JSON.stringify(Object.assign({ event, vid: hlVid(), avatar: hlAvatar(), page: "deck", ref: (document.referrer || "").slice(0, 200) }, extra || {}));
+  try { fetch(LOG_URL, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body }); } catch (_) {}
+}
 /* ---------- Question or comment: small button -> bubble ---------- */
 (() => {
   const OWNER = "heatherlee.ux@gmail.com";
@@ -519,7 +532,9 @@ $("pwToggle").addEventListener("click", () => {
         "Slide": `Slide ${i + 1} of ${total}` + (title ? ` (${title})` : ""),
         "Comment": text,
         "Sent from": location.href.split("#")[0],
-        "Sent at": new Date().toLocaleString()
+        "Sent at": new Date().toLocaleString(),
+        "Visitor": hlVid(),
+        "Avatar": AVATAR_NAMES[hlAvatar()] || "(none picked)"
       };
       // primary: Web3Forms; backup: FormSubmit (only if the first service fails or doesn't answer)
       const services = [];
@@ -543,6 +558,7 @@ $("pwToggle").addEventListener("click", () => {
         finally { clearTimeout(timer); }
       }
       if (lastErr) throw lastErr;
+      hlLog("comment", { source: "deck room", slide: fields["Slide"], text });
       setStatus(""); card.classList.add("thanked");
       setTimeout(() => { note.value = ""; close(false); setTimeout(() => card.classList.remove("thanked"), 400); }, 1300);
     } catch (err) {
