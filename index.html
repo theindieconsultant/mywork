@@ -346,10 +346,25 @@ function b64fast(s) {
 let slides = [], thumbSlides = [], total = 0, aspect = 16 / 9, cur = 0, stripBuilt = false;
 
 /* ---------- Unlock ---------- */
+// Once the password works, this browser remembers the deck key for 30 days, so visitors aren't asked again
+// (for example after "Back to Slideshow" from the resume game).
+const KEYSTORE = "deckroom-key", KEY_DAYS = 30;
 async function decrypt(pw) {
   const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
   const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(DECK.salt), iterations: DECK.iter, hash: "SHA-256" },
-    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+    base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+  const bytes = new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(DECK.iv) }, key, b64fast(DECK.data)));
+  try {
+    const raw = new Uint8Array(await crypto.subtle.exportKey("raw", key));
+    let bin = ""; raw.forEach(b => bin += String.fromCharCode(b));
+    localStorage.setItem(KEYSTORE, JSON.stringify({ k: btoa(bin), iv: DECK.iv, t: Date.now() }));
+  } catch {}
+  return bytes;
+}
+async function decryptRemembered() {
+  let saved = null; try { saved = JSON.parse(localStorage.getItem(KEYSTORE) || "null"); } catch {}
+  if (!saved || !saved.k || saved.iv !== DECK.iv || Date.now() - saved.t > KEY_DAYS * 864e5) { try { localStorage.removeItem(KEYSTORE); } catch {} return null; }
+  const key = await crypto.subtle.importKey("raw", b64(saved.k), { name: "AES-GCM" }, false, ["decrypt"]);
   return new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(DECK.iv) }, key, b64fast(DECK.data)));
 }
 
@@ -372,6 +387,16 @@ $("unlock").addEventListener("submit", async e => {
   try { await openDeck(bytes); }
   catch (err) { go.disabled = false; msg.className = "msg"; msg.textContent = "The deck unlocked but couldn't be displayed. Try reloading the page."; console.error(err); }
 });
+
+// returning visitor: open straight away with the remembered key
+(async () => {
+  if (!DECK) return;
+  let bytes = null;
+  try { bytes = await decryptRemembered(); } catch { try { localStorage.removeItem(KEYSTORE); } catch {} }
+  if (!bytes) return;
+  const msg = $("msg"); msg.className = "msg ok"; msg.textContent = "Welcome back. Opening deck…";
+  try { await openDeck(bytes); } catch (err) { console.error(err); msg.className = "msg"; msg.textContent = ""; }
+})();
 
 /* ---------- Unpack slides + images ---------- */
 async function openDeck(bytes) {
