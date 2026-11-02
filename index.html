@@ -381,7 +381,13 @@ async function openDeck(bytes) {
       document.fonts.load('600 72px "Source Serif 4"'), document.fonts.load('400 28px "Source Serif 4"'),
       document.fonts.load('400 28px "DM Sans"'), document.fonts.load('700 28px "DM Sans"')]), wait(3000)]);
   } catch {}
-  if (head.resume) { $("resumeBtn").href = head.resume; $("resumeBtn").hidden = false; }
+  if (head.resume) {
+    // the resume button opens the game's map view (world.html) instead of the timeline
+    const toWorld = u => { try { const x = new URL(u, location.href);
+      if (/scroll-my-resume/.test(x.pathname)) x.pathname = x.pathname.replace(/\/scroll-my-resume(\/(index\.html|scroll-my-resume\.html)?)?$/, "/scroll-my-resume/world.html");
+      else if (/claude\.ai\/(code\/)?artifact/.test(x.href)) x.hash = "world";
+      return x.href; } catch (_) { return u; } };
+    $("resumeBtn").href = toWorld(head.resume); $("resumeBtn").hidden = false; }
   moveTalksToHeader();
   $("gate").hidden = true; $("viewer").hidden = false;
   if (!$("strip").hidden) buildStrip();
