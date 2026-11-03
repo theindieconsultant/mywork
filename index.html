@@ -283,11 +283,6 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
     <div class="deck-title"><img class="bar-logo" id="barLogo" alt="HLUX"><span class="name" id="deckTitle">Heatherlee Nguyen</span><span class="dot" aria-hidden="true">•</span><span class="loc">📍Minneapolis-St. Paul, MN, USA</span></div>
     <div class="bar-mid" id="barMid"></div>
     <div class="bar-right">
-    <nav class="seg" aria-label="Sections">
-      <button id="tabWork" aria-pressed="true" aria-current="page">My Work</button>
-      <a class="tab-link" href="https://www.linkedin.com/in/heatherleenguyen/" target="_blank" rel="noopener noreferrer">LinkedIn
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
-    </nav>
     <label class="switch" for="thumbToggle">
       <input type="checkbox" id="thumbToggle">
       <span class="track"></span>
@@ -635,7 +630,9 @@ function setStrip(on) {
 $("thumbToggle").onchange = e => setStrip(e.target.checked);
 // ?view=slideshow (used by the resume game's "Back to Slideshow" link) turns slideshow view on
 try { if (new URLSearchParams(location.search).get("view") === "slideshow") localStorage.setItem("deckroom-thumbs", "1"); } catch {}
-try { if (localStorage.getItem("deckroom-thumbs") === "1") { $("thumbToggle").checked = true; $("strip").hidden = false; } } catch {}
+// slideshow view is on by default; it stays off only for a visitor who switched it off
+(() => { let on = true; try { on = localStorage.getItem("deckroom-thumbs") !== "0"; } catch {}
+  $("thumbToggle").checked = on; $("strip").hidden = !on; })();
 
 /* ---------- Layout ---------- */
 let askOpen = false;
