@@ -630,7 +630,7 @@ function setStrip(on) {
 $("thumbToggle").onchange = e => setStrip(e.target.checked);
 // ?view=slideshow (used by the resume game's "Back to Slideshow" link) turns slideshow view on
 try { if (new URLSearchParams(location.search).get("view") === "slideshow") localStorage.setItem("deckroom-thumbs", "1"); } catch {}
-// slideshow view is on by default; it stays off only for a visitor who switched it off
+// slideshow view is on by default on every device (desktop, tablet and phone); it stays off only for a visitor who switched it off
 (() => { let on = true; try { on = localStorage.getItem("deckroom-thumbs") !== "0"; } catch {}
   $("thumbToggle").checked = on; $("strip").hidden = !on; })();
 
