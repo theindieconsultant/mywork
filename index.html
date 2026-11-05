@@ -10,6 +10,142 @@
 body { margin: 0; font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-text-size-adjust: 100%; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
+/* ================= Password page (gate) =================
+   Layout: brand bar on top; left column = who + what + the password card; right column = proof
+   (results, specialties); a company strip runs along the bottom. One column on phones. */
+.gate { --g-pad: clamp(20px, 4vw, 56px); --g-hair: rgba(235,232,225,.10); --g-glow: rgba(213,245,60,.16);
+  position: relative; height: 100%; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  display: grid; grid-template-rows: auto 1fr auto; isolation: isolate; background: var(--room); }
+/* background: faint dot grid, a slow neon aurora and a spotlight that follows the pointer */
+.gate::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background-image: radial-gradient(rgba(235,232,225,.09) 1px, transparent 1.3px); background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 80%); mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 80%); }
+.gate::after { content: ""; position: fixed; inset: -20%; z-index: -3; pointer-events: none;
+  background: radial-gradient(40% 35% at 78% 22%, rgba(213,245,60,.13), transparent 70%), radial-gradient(35% 30% at 12% 88%, rgba(120,140,255,.08), transparent 70%);
+  animation: g-aurora 18s ease-in-out infinite alternate; }
+.g-spot { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 40%), var(--g-glow), transparent 60%); }
+.gate:hover .g-spot { opacity: 1; }
+@keyframes g-aurora { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(-4%,3%,0) scale(1.08); } }
+
+/* top bar */
+.g-top { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px;
+  padding-block: calc(14px + env(safe-area-inset-top, 0px)) 10px; padding-left: max(var(--g-pad), env(safe-area-inset-left, 0px)); padding-right: max(var(--g-pad), env(safe-area-inset-right, 0px)); }
+.g-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.g-brand .logo { height: 30px; width: auto; display: block; flex: none; }
+.g-brand b { font-family: var(--f-display); font-weight: 600; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; }
+.g-brand small { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.gate-top { position: static; display: flex; justify-content: center; padding: 0; }
+.g-loc { justify-self: end; display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.g-loc i { width: 7px; height: 7px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 0 0 rgba(213,245,60,.6); animation: g-ping 2.2s ease-out infinite; }
+@keyframes g-ping { 0% { box-shadow: 0 0 0 0 rgba(213,245,60,.55); } 80%,100% { box-shadow: 0 0 0 9px rgba(213,245,60,0); } }
+
+/* main grid */
+.g-main { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(28px, 4.5vw, 72px); align-items: center; width: 100%; max-width: 1320px; margin-inline: auto;
+  padding-block: clamp(8px, 2vh, 28px); padding-left: max(var(--g-pad), env(safe-area-inset-left, 0px)); padding-right: max(var(--g-pad), env(safe-area-inset-right, 0px)); }
+.g-lead { display: grid; gap: clamp(12px, 2vh, 22px); min-width: 0; }
+.g-eyebrow { display: inline-flex; align-items: center; gap: 10px; justify-self: start; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass);
+  border: 1px solid rgba(213,245,60,.35); background: rgba(213,245,60,.06); border-radius: 999px; padding: 6px 12px; }
+.g-eyebrow svg { width: 13px; height: 13px; }
+.gate h1.g-h1 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(36px, min(5vw, 8.2vh), 78px); line-height: .98; letter-spacing: -.035em; text-wrap: balance; color: var(--text); }
+.g-h1 .hl { color: var(--brass); }
+.g-rot { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(18px, 1.7vw, 24px); letter-spacing: -.01em; color: var(--muted); display: flex; flex-wrap: wrap; align-items: baseline; gap: .35em; }
+.g-rot .slot { position: relative; display: inline-grid; height: 1.3em; overflow: hidden; vertical-align: bottom; color: var(--text); }
+.g-rot .slot span { grid-area: 1 / 1; white-space: nowrap; transform: translateY(110%); opacity: 0; transition: transform .55s cubic-bezier(.2,.8,.2,1), opacity .35s; }
+.g-rot .slot span.on { transform: none; opacity: 1; }
+.g-rot .slot span.out { transform: translateY(-110%); opacity: 0; }
+.g-rot .slot::after { content: ""; position: absolute; left: 0; right: 0; bottom: .05em; height: 2px; background: var(--brass); transform-origin: left; animation: g-under 2.8s cubic-bezier(.6,0,.2,1) infinite; }
+@keyframes g-under { 0% { transform: scaleX(0); } 30%, 80% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+.gate p.g-lede { margin: 0; max-width: 56ch; font-size: clamp(15px, 1.15vw, 17px); line-height: 1.6; color: #c5c2bb; }
+.g-lede b { color: var(--text); font-weight: 500; }
+
+/* password card */
+.g-card { position: relative; max-width: 540px; border-radius: 16px; padding: 16px 18px 12px; background: linear-gradient(180deg, rgba(28,31,39,.92), rgba(21,23,29,.92));
+  border: 1px solid var(--g-hair); box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.g-card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--ring), transparent 0deg 250deg, rgba(213,245,60,.55) 300deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: ring-spin 6s linear infinite; }
+.g-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.g-card-head b { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text); }
+.g-card-head b svg { width: 15px; height: 15px; color: var(--brass); }
+.g-card-head span { font-family: var(--f-mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+.gate .g-card label { font-size: 11px; letter-spacing: .1em; }
+.gate .g-card .field input { background: #101217; padding: 13px 16px; border-radius: 10px; font-size: 15px; }
+.gate .g-card .field input:focus { border-color: var(--brass); box-shadow: 0 0 0 4px rgba(213,245,60,.12); }
+.gate .g-card .btn-primary { border-radius: 10px; padding: 0 22px; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: transform .15s, box-shadow .2s; }
+.gate .g-card .btn-primary svg { width: 16px; height: 16px; transition: transform .2s; }
+.gate .g-card .btn-primary:hover { box-shadow: 0 8px 24px -8px rgba(213,245,60,.55); }
+.gate .g-card .btn-primary:hover svg { transform: translateX(3px); }
+.gate .g-card .msg { margin-top: 0; min-height: 1.2em; }
+.gate .g-card form { gap: 8px; }
+.gate p.device-note { margin: 0; font-size: 12.5px; font-style: normal; color: var(--brass); display: flex; align-items: center; gap: 7px; }
+.gate p.device-note svg { width: 14px; height: 14px; flex: none; }
+
+/* proof column */
+.g-proof { display: grid; gap: 14px; min-width: 0; }
+.g-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.g-stat { position: relative; overflow: hidden; border: 1px solid var(--g-hair); border-radius: 14px; padding: clamp(12px, 1.8vh, 16px) 16px clamp(10px, 1.6vh, 14px); background: rgba(28,31,39,.6); transition: border-color .25s, transform .25s; }
+.g-stat:hover { border-color: rgba(213,245,60,.4); transform: translateY(-2px); }
+.g-stat .n { display: block; font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, min(2.6vw, 4.6vh), 40px); line-height: 1; letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
+.g-stat .n em { font-style: normal; color: var(--brass); }
+.g-stat .c { display: block; margin-top: 6px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.g-stat .w { display: block; margin-top: 8px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #8d919d; }
+.g-stat.wide { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; align-items: center; background: linear-gradient(120deg, rgba(213,245,60,.10), rgba(28,31,39,.6) 60%); }
+.g-stat.wide .n { grid-row: span 2; font-size: clamp(40px, 4vw, 58px); }
+.g-stat.wide .c { margin: 0; color: #d6d3cc; font-size: 14px; }
+.g-stat.wide .w { margin: 0; }
+.g-tags-h { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 6px 0 0; }
+.g-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.g-tags li { font-size: 12.5px; color: #d6d3cc; border: 1px solid var(--g-hair); background: rgba(235,232,225,.03); border-radius: 999px; padding: 5px 11px; transition: border-color .2s, color .2s, background .2s; }
+.g-tags li.k { color: #15171d; background: var(--brass); border-color: var(--brass); font-weight: 600; }
+.g-tags li:not(.k):hover { border-color: rgba(213,245,60,.5); color: var(--text); }
+
+/* company strip */
+.g-strip { border-top: 1px solid var(--g-hair); padding-block: 12px calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 18px; overflow: hidden;
+  padding-left: max(var(--g-pad), env(safe-area-inset-left, 0px)); }
+.g-strip > span { flex: none; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.g-marquee { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.g-track { display: flex; width: max-content; animation: g-marq 38s linear infinite; }
+.g-marquee:hover .g-track { animation-play-state: paused; }
+.g-track ul { display: flex; gap: 0; margin: 0; padding: 0; list-style: none; }
+.g-track li { font-family: var(--f-display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; color: #bdbab3; white-space: nowrap; padding-inline: 22px; display: inline-flex; align-items: center; gap: 22px; }
+.g-track li::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: rgba(213,245,60,.6); }
+@keyframes g-marq { to { transform: translateX(-50%); } }
+
+/* entrance: everything is visible at rest; this only plays once on load */
+.g-in { animation: g-up .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--d, 0) * 90ms); }
+@keyframes g-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* tablet / phone */
+@media (max-width: 980px) {
+  .g-main { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .g-card { max-width: none; }
+}
+@media (max-width: 640px) {
+  .g-top { grid-template-columns: minmax(0,1fr) auto; row-gap: 12px; }
+  .gate-top { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; }
+  .g-brand small { display: none; }
+  .g-loc span { display: none; }
+  .gate h1.g-h1 { font-size: clamp(34px, 10.5vw, 46px); }
+  .g-card { order: 4; }
+  .g-card-head span { display: none; }
+  .g-card-head b { white-space: nowrap; }
+  .g-lede { order: 5; }
+  .g-stats { gap: 10px; }
+  .g-stat { padding: 14px 13px 12px; }
+  .g-stat.wide { grid-template-columns: 1fr; }
+  .g-stat.wide .n { grid-row: auto; }
+  .g-strip { flex-direction: column; align-items: flex-start; gap: 10px; padding-right: max(var(--g-pad), env(safe-area-inset-right, 0px)); }
+  .g-marquee { width: 100%; }
+  .gate .g-card .field { flex-wrap: wrap; }
+  .gate .g-card .btn-primary { min-height: 48px; justify-content: center; flex: 1 0 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate::after, .g-loc i, .g-rot .slot::after, .g-card::before, .g-track, .g-in { animation: none !important; }
+  .g-rot .slot span { transition: none; }
+  .g-spot { display: none; }
+}
 </style>
 <title>HL·UX Deck Room</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -36,13 +172,6 @@ button, input { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 
 /* ---------- Gate ---------- */
-.gate { height: 100%; display: grid; place-items: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px; }
-.gate-inner { width: min(460px, 100%); display: grid; gap: 28px; }
-.mark { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; }
-.mark .logo { height: 32px; width: auto; display: block; }
-.mark { gap: 14px; }
-.gate h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 5.5vw, 38px); line-height: 1.02; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
-.gate p { margin: 0; color: var(--muted); line-height: 1.55; }
 form { display: grid; gap: 10px; }
 label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .field { display: flex; gap: 8px; }
@@ -154,8 +283,6 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
 }
 
 /* Talks & writings dropdown (lives on the password screen, then moves into the header) */
-.gate { position: relative; }
-.gate-top { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); left: 0; right: 0; display: flex; justify-content: center; padding-inline: 16px; z-index: 20; }
 .bar-mid { display: flex; justify-content: center; }
 .bar-right { display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-width: 0; }
 .talks { position: relative; }
@@ -235,12 +362,14 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
 .resume-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 @media (max-width: 560px) { .talks-menu { left: 0; transform: none; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.gate p.device-note { margin-top: -16px; font-size: 13px; font-style: italic; color: var(--brass); }
 .seg button, .icon-btn, .tab-link, .switch { white-space: nowrap; }
 .deck-title .loc { overflow: hidden; text-overflow: ellipsis; }
 </style>
 
-<section class="gate" id="gate">
+<section class="gate" id="gate" aria-label="Heatherlee Nguyen, private portfolio">
+  <div class="g-spot" id="gSpot" aria-hidden="true"></div>
+  <header class="g-top g-in" style="--d:0">
+    <div class="g-brand"><img class="logo" src="data:image/png;base64,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" alt="HLUX"><div><b>Heatherlee Nguyen</b><br><small>the indie consultant</small></div></div>
   <div class="gate-top" id="gateTop">
 <div class="top-links" id="topLinks">
 <div class="talks" id="talks">
@@ -256,12 +385,17 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
   <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
 </div>
   </div>
-  <div class="gate-inner">
-    <div class="mark"><img class="logo" src="data:image/png;base64,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" alt="HLUX">2026</div>
-    <h1>Heatherlee is inviting you to view a password-protected site.</h1>
-    <p>Enter the password you were sent to open it. It plays as a full-screen slideshow you can page through using your arrow keys.</p>
-    <p class="device-note">Note: This is best experienced on a desktop.</p>
-    <form id="unlock" autocomplete="off">
+    <div class="g-loc"><i aria-hidden="true"></i><span>Minneapolis–St. Paul, MN</span></div>
+  </header>
+  <div class="g-main">
+    <div class="g-lead">
+      <p class="g-eyebrow g-in" style="--d:1"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4z"/></svg>Principal Product Designer</p>
+      <h1 class="g-h1 g-in" style="--d:2">Complex B2B platforms, designed to feel <span class="hl">simple.</span></h1>
+      <p class="g-rot g-in" style="--d:3"><span>15 years leading</span><span class="slot" id="gRot" aria-live="off"><span class="on">design systems</span><span>agentic AI &amp; human-in-the-loop UX</span><span>enterprise B2B platforms</span><span>UX research &amp; discovery</span><span>design teams</span></span></p>
+      <p class="g-lede g-in" style="--d:4">Principal Product Designer at <b>Aroris Health</b>, designing agentic AI workflows for healthcare. Previously on <b>Apple</b>’s enterprise B2B team (via Bitovi) and Creative Director of <b>Optum</b>’s Netra design system.</p>
+      <div class="g-card g-in" style="--d:5">
+        <div class="g-card-head"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Private portfolio</b><span>60 slides · case studies</span></div>
+        <form id="unlock" autocomplete="off">
       <label for="pw">Password</label>
       <div class="field">
         <div class="pw-wrap">
@@ -271,11 +405,29 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
             <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M9.9 5.2A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-2.9 3.9M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M3 3l18 18"/></svg>
           </button>
         </div>
-        <button class="btn-primary" id="go" type="submit">Open</button>
+        <button class="btn-primary" id="go" type="submit">Open <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
       <div class="msg" id="msg" role="status" aria-live="polite"></div>
     </form>
+        <p class="device-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>Note: This is best experienced on a desktop.</p>
+      </div>
+    </div>
+    <aside class="g-proof" aria-label="Highlights">
+      <div class="g-stats">
+        <div class="g-stat wide g-in" style="--d:6"><span class="n" data-count="15">15<em> yrs</em></span><span class="c">Designing B2B, enterprise and healthcare products</span><span class="w">2011 – today</span></div>
+        <div class="g-stat  g-in" style="--d:7"><span class="n" data-count="50">$50M+<em></em></span><span class="c">monthly revenue lift from the award-winning OptumRx app</span><span class="w">Optum</span></div>
+        <div class="g-stat  g-in" style="--d:8"><span class="n" data-count="40">40/40<em></em></span><span class="c">clients retained through renewal in year one</span><span class="w">Aroris Health</span></div>
+        <div class="g-stat  g-in" style="--d:9"><span class="n" data-count="25">25+<em></em></span><span class="c">platform teams building on the Netra design system</span><span class="w">Optum</span></div>
+        <div class="g-stat  g-in" style="--d:10"><span class="n" data-count="84">$84K<em></em></span><span class="c">revenue gained by one beta client from a tool I designed</span><span class="w">Aroris Health</span></div>
+      </div>
+      <p class="g-tags-h g-in" style="--d:11">Hire me for</p>
+      <ul class="g-tags g-in" style="--d:12"><li class="k">Design Systems</li><li class="k">Agentic AI UX</li><li class="k">B2B &amp; Enterprise SaaS</li><li class="k">Design Leadership</li><li>Design Tokens &amp; Theming</li><li>Human-in-the-Loop AI</li><li>UX Research &amp; Discovery</li><li>Rapid Prototyping</li><li>AI &amp; Vibe-coding Tools</li><li>Accessibility</li><li>Healthcare &amp; Supply Chain</li><li>Team Building &amp; Mentorship</li><li>Workshop Facilitation</li></ul>
+    </aside>
   </div>
+  <footer class="g-strip g-in" style="--d:13" aria-label="Companies I have designed for">
+    <span>Designed for</span>
+    <div class="g-marquee"><div class="g-track"><ul><li>Apple</li><li>Optum</li><li>UnitedHealth Group</li><li>Aroris Health</li><li>Target</li><li>Mayo Clinic</li><li>Best Buy</li><li>Securian Financial</li><li>General Mills</li><li>Calabrio</li><li>AARP</li></ul><ul aria-hidden="true"><li>Apple</li><li>Optum</li><li>UnitedHealth Group</li><li>Aroris Health</li><li>Target</li><li>Mayo Clinic</li><li>Best Buy</li><li>Securian Financial</li><li>General Mills</li><li>Calabrio</li><li>AARP</li></ul></div></div>
+  </footer>
 </section>
 
 <section class="viewer" id="viewer" hidden>
@@ -745,6 +897,34 @@ addEventListener("keydown", e => {
   else if (k === "t" || k === "T") setStrip($("strip").hidden);
   else if (k === "Escape" && $("viewer").classList.contains("focus")) toggleFs();
 });
+
+/* ---------- Password page motion ---------- */
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gate = document.getElementById("gate"); if (!gate) return;
+  const spot = document.getElementById("gSpot");
+  gate.addEventListener("pointermove", e => { spot.style.setProperty("--mx", e.clientX + "px"); spot.style.setProperty("--my", e.clientY + "px"); });
+  if (reduce) return;
+  const words = [...document.querySelectorAll("#gRot span")]; let k = 0;
+  setInterval(() => {
+    if (gate.hidden) return;
+    const cur = words[k]; k = (k + 1) % words.length; const nxt = words[k];
+    cur.classList.remove("on"); cur.classList.add("out");
+    nxt.classList.remove("out"); nxt.classList.add("on");
+    setTimeout(() => cur.classList.remove("out"), 600);
+  }, 2800);
+  document.querySelectorAll(".g-stat .n[data-count]").forEach((el, i) => {
+    const target = +el.dataset.count, html = el.innerHTML;
+    const node = [...el.childNodes].find(n => n.nodeType === 3 && /\d/.test(n.textContent)); if (!node) return;
+    const fmt = node.textContent; const t0 = performance.now() + 450 + i * 120, dur = 1100;
+    const tick = now => {
+      const p = Math.min(1, Math.max(0, (now - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
+      node.textContent = fmt.replace(/\d+/, String(Math.round(target * e)));
+      if (p < 1) requestAnimationFrame(tick); else el.innerHTML = html;
+    };
+    requestAnimationFrame(tick);
+  });
+})();
 </script>
 
 </html>
