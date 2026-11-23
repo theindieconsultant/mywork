@@ -292,6 +292,8 @@ img { max-width: 100%; }
 .moveme-btn:hover, .moveme-btn:focus-visible { transform: translateY(-1px); filter: saturate(1.15); box-shadow: 0 10px 24px -8px rgba(255,90,120,.85); color: #1a0f14; }
 .moveme-btn:hover .arr { transform: translateX(3px); }
 @media (prefers-reduced-motion: reduce) { .moveme-btn::after { animation: none; } }
+.viewer.fs-on #topLinks, .viewer:fullscreen #topLinks { visibility: hidden; opacity: 0; pointer-events: none; }
+#topLinks { transition: opacity .2s; }
 </style>
 <title>HL·UX Deck Room</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1046,9 +1048,13 @@ async function toggleFs() {
 function afterFs() {
   const on = !!document.fullscreenElement || $("viewer").classList.contains("focus");
   $("fsLabel").textContent = on ? "Exit full screen" : "Full screen";
+  // in full screen, hide the header links (My Talks, Move <3 Me, resume game); they return when it closes
+  $("viewer").classList.toggle("fs-on", on);
+  if (on) { $("talksMenu").hidden = true; $("talksBtn").setAttribute("aria-expanded", "false"); }
   requestAnimationFrame(() => { layout(); show(); });
 }
 document.addEventListener("fullscreenchange", afterFs);
+document.addEventListener("webkitfullscreenchange", afterFs);
 $("fsBtn").onclick = toggleFs;
 
 addEventListener("keydown", e => {
