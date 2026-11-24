@@ -66,6 +66,9 @@ scroll hint: Scroll
 #  EASIEST: open theindieconsultant.github.io/mywork/?edit to drag, resize,
 #           remove, replace or add pictures and edit these words, then Save.
 
+# All pictures are currently removed. Add one in the editor, or replace this line.
+picture 1: off
+
 
 
 # ---------- SECTION 1: METHODS ----------
@@ -107,9 +110,3 @@ companies row 2: Best Buy | Securian Financial | General Mills | Calabrio | AARP
 closing heading: The full story is | *one password away.*
 closing button: Enter password
 footer: © 2026 Heatherlee Nguyen · HLUX · The Indie Consultant
-
-# ---------- WORK PICTURES ----------
-
-# ---------- WORK PICTURES ----------
-
-# ---------- WORK PICTURES ----------
