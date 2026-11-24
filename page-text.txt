@@ -66,8 +66,7 @@ scroll hint: Scroll
 #           remove, replace or add pictures and edit these words, then Save.
 
 
-picture 1: file = linkedin-feed-post-monie-hero-dark-1080-1350-2x-mwuz1i4i.webp | caption =  | style = card | left = 29.8 | top = 21.7 | width = 61 | tilt = 0
-
+picture 1: file = linkedin-feed-post-monie-hero-dark-1080-1350-2x-mwuz1i4i.webp | caption =  | style = card | left = 29.8 | top = 21.7 | width = 61 | tilt = 0 | link = https://theindieconsultant.github.io/moveme/
 # ---------- SECTION 1: METHODS ----------
 section 1 label: 01 / What I do
 section 1 heading: Methods to my *madness.*

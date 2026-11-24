@@ -396,6 +396,13 @@ header.bar { position: relative; z-index: 50; }
 .snip .snip-mag svg { display: block; width: 100%; height: auto; animation: wobble 5s ease-in-out 2s infinite; transform-origin: 70% 70%; transition: transform .35s cubic-bezier(.2,.8,.2,1.6); }
 .snip.linked:hover .snip-mag svg { animation: none; transform: rotate(-14deg) scale(1.12); }
 .gate.arranging .snip.linked { cursor: move; }
+/* phones and tablets: pictures stay still (no tap-to-zoom); linked ones are simply tappable */
+@media (hover: none) {
+  .snip .ph:hover img, .snip.cut .ph:hover img { transform: none !important; }
+  .snip .ph, .snip.cut .ph { cursor: default; }
+  .snip.linked, .snip.linked .ph { cursor: pointer; }
+  .snip:hover .in { transform: rotate(var(--r, 0deg)); }
+}
 </style>
 <title>HL·UX Deck Room</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1326,6 +1333,7 @@ addEventListener("keydown", e => {
   requestAnimationFrame(frame);
 })();
 
+window.GATE_VERSION = "20261124114706";
 /* ---------- Password page words: read from page-text.txt (edit that file on GitHub) ---------- */
 (() => {
   const gate = document.getElementById("gate"); if (!gate) return;
@@ -1414,8 +1422,11 @@ addEventListener("keydown", e => {
     .catch(() => {}).finally(() => { release(); if (/[?&](arrange|edit)\b/.test(location.search)) arrange(); });
 
   /* ----- edit mode: open the page with ?edit to arrange, remove, replace or add pictures and edit the words, then Save ----- */
-  function arrange() {
+  async function arrange() {
     const col = q("#collage"); if (!col) return;
+    // an editor running from a browser's saved (older) copy could save over newer work, so load the newest copy first
+    try { const v = (await (await fetch("version.txt?t=" + Date.now(), { cache: "no-store" })).text()).trim();
+      if (v && v !== window.GATE_VERSION) { location.replace(location.pathname + "?edit&v=" + v); return; } } catch (_) {}
     const OWNER = "theindieconsultant", REPO = "mywork", BRANCH = "main", API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
     const KEY = "hl-gh-token"; const getTok = () => { try { return localStorage.getItem(KEY) || ""; } catch (_) { return ""; } };
     const setTok = v => { try { v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); } catch (_) {} };
