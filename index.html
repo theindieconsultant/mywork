@@ -382,6 +382,20 @@ header.bar { position: relative; z-index: 50; }
   .gate .end-li svg { width: 18px; height: 18px; }
 }
 @media (max-width: 380px) { .g-brand .logo { height: 22px; } .g-brand { gap: 7px; } .g-brand b { font-size: 13.5px; } .moveme-btn { padding-right: 10px; } }
+/* the loose magnifier now lives on linked pictures instead */
+.gate .deco.mag { display: none; }
+/* captionless cards: an even, thinner white frame all the way round */
+.snip.card.nocap .in { padding: 4px; }
+.snip.card.nocap .tape { top: -10px; }
+/* linked pictures: clickable, with the magnifier badge on the top-right corner */
+.snip.linked .ph, .snip.linked { cursor: pointer; }
+.snip.linked .ph:hover img { transform: none; }
+.snip.linked:hover .in { transform: rotate(0deg) scale(1.03); }
+.snip.linked:focus-visible { outline: 2px solid var(--neon); outline-offset: 6px; }
+.snip .snip-mag { position: absolute; z-index: 3; top: 4%; right: 5%; width: 16%; max-width: 64px; min-width: 34px; pointer-events: none; }
+.snip .snip-mag svg { display: block; width: 100%; height: auto; animation: wobble 5s ease-in-out 2s infinite; transform-origin: 70% 70%; transition: transform .35s cubic-bezier(.2,.8,.2,1.6); }
+.snip.linked:hover .snip-mag svg { animation: none; transform: rotate(-14deg) scale(1.12); }
+.gate.arranging .snip.linked { cursor: move; }
 </style>
 <title>HL·UX Deck Room</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -1363,9 +1377,24 @@ addEventListener("keydown", e => {
     const o = {}; v.split("|").forEach(part => { const i = part.indexOf("="); if (i > 0) o[part.slice(0, i).trim().toLowerCase()] = part.slice(i + 1).trim(); });
     if (!o.file) return null;
     return { n, file: o.file, caption: o.caption || "", style: KINDS[(o.style || "card").toLowerCase()] ? (o.style || "card").toLowerCase() : "card",
-      left: num(o.left, 0), top: num(o.top, 0), width: num(o.width, 30), tilt: num(o.tilt, 0), depth: num(o.depth, DEPTHS[(n - 1) % DEPTHS.length]) };
+      left: num(o.left, 0), top: num(o.top, 0), width: num(o.width, 30), tilt: num(o.tilt, 0), depth: num(o.depth, DEPTHS[(n - 1) % DEPTHS.length]), link: /^https?:\/\//i.test(o.link || "") ? o.link : "" };
   };
   const picSrc = f => /^https?:\/\//i.test(f) ? f : "pictures/" + f.replace(/^\/?pictures\//i, "").split("/").map(encodeURIComponent).join("/");
+  const MAG_SVG = `<svg viewBox="0 0 64 64" fill="none" stroke-linecap="round" aria-hidden="true"><circle cx="26" cy="26" r="17" stroke="#d5f53c" stroke-width="3"/><circle cx="26" cy="26" r="11" stroke="rgba(235,232,225,.35)" stroke-width="1.2" stroke-dasharray="2 4"/><path d="M39 39l17 17" stroke="#d5f53c" stroke-width="7"/><path d="M20 18a10 10 0 0 1 10-3" stroke="#ebe8e1" stroke-width="2"/></svg>`;
+  function picInner(p, i) {
+    return `<div class="in" style="--r:${p.tilt}deg;--i:${i}">${p.style !== "cutout" ? '<span class="tape" aria-hidden="true"></span>' : ""}<div class="ph"><img src="${esc(picSrc(p.file))}" alt="${esc(p.caption || "Work sample")}" decoding="async"></div>${p.caption ? `<figcaption class="cap">${esc(p.caption)}</figcaption>` : ""}${p.link ? `<span class="snip-mag" aria-hidden="true">${MAG_SVG}</span>` : ""}</div>`;
+  }
+  function decorate(f, p) {
+    f.classList.toggle("nocap", !p.caption);
+    f.classList.toggle("linked", !!p.link);
+    if (p.link) { f.dataset.link = p.link; f.tabIndex = 0; f.setAttribute("role", "link"); f.setAttribute("aria-label", (p.caption || "Open") + " (opens in a new tab)"); }
+    else { delete f.dataset.link; f.removeAttribute("tabindex"); f.removeAttribute("role"); f.removeAttribute("aria-label"); }
+  }
+  window.gatePicDecorate = (f) => { const p = f._pic; const inn = f.querySelector(".in"); inn.querySelector(".snip-mag")?.remove(); if (p.link) inn.insertAdjacentHTML("beforeend", `<span class="snip-mag" aria-hidden="true">${MAG_SVG}</span>`); decorate(f, p); };
+  // clicking (or Enter on) a linked picture opens its link, except while arranging in edit mode
+  const openLink = e => { const f = e.target.closest(".collage .snip.linked"); if (!f || gate.classList.contains("arranging")) return;
+    if (e.type === "keydown" && e.key !== "Enter") return; window.open(f.dataset.link, "_blank", "noopener"); };
+  gate.addEventListener("click", openLink); gate.addEventListener("keydown", openLink);
   function buildPictures(lines) {
     const pics = lines.map(([n, v]) => readPic(n, v)).filter(Boolean).sort((a, b) => a.n - b.n);
     const col = q("#collage"); if (!col) return;
@@ -1374,8 +1403,8 @@ addEventListener("keydown", e => {
     pics.forEach((p, i) => {
       const f = document.createElement("figure"); f.className = "snip " + KINDS[p.style]; f.dataset.d = p.depth; f.dataset.pic = p.n;
       f.style.cssText = `left:${p.left}%;top:${p.top}%;width:${p.width}%`;
-      f.innerHTML = `<div class="in" style="--r:${p.tilt}deg;--i:${i}">${p.style !== "cutout" ? '<span class="tape" aria-hidden="true"></span>' : ""}<div class="ph"><img src="${esc(picSrc(p.file))}" alt="${esc(p.caption || "Work sample")}" decoding="async"></div>${p.caption ? `<figcaption class="cap">${esc(p.caption)}</figcaption>` : ""}</div>`;
-      f._pic = p; col.insertBefore(f, before);
+      f.innerHTML = picInner(p, i);
+      decorate(f, p); f._pic = p; col.insertBefore(f, before);
     });
     if (window.gateBindCollage) window.gateBindCollage();
   }
@@ -1405,6 +1434,7 @@ addEventListener("keydown", e => {
           <p>Drag a picture to move it · drag its blue corner dot to resize · click one to edit it below.</p>
           <div class="arr-sel" hidden>
             <label>Caption <input type="text" class="arr-cap" placeholder="(no caption)"></label>
+            <label>Link (optional, opens when clicked) <input type="url" class="arr-link" placeholder="https://…"></label>
             <label>Style <select class="arr-style"><option value="card">card (white frame + tape)</option><option value="photo">photo (polaroid)</option><option value="cutout">cutout (no frame)</option></select></label>
             <div class="arr-row"><button type="button" data-act="tilt-">↺ Tilt</button><button type="button" data-act="tilt+">↻ Tilt</button><button type="button" data-act="fwd">Bring forward</button><button type="button" data-act="back">Send back</button></div>
             <div class="arr-row"><button type="button" data-act="replace">Replace image…</button><button type="button" data-act="remove" class="danger">Remove picture</button></div>
@@ -1448,9 +1478,10 @@ addEventListener("keydown", e => {
       f.className = "snip " + kindClass(p.style) + (f === picked ? " picked" : "");
       inn.querySelector(".tape")?.remove(); if (p.style !== "cutout") inn.insertAdjacentHTML("afterbegin", '<span class="tape" aria-hidden="true"></span>');
       let cap = inn.querySelector(".cap"); if (p.caption) { if (!cap) { cap = document.createElement("figcaption"); cap.className = "cap"; inn.querySelector(".ph").after(cap); } cap.textContent = p.caption; } else if (cap) cap.remove();
-      const img = f.querySelector(".ph img"); img.alt = p.caption || "Work sample"; };
+      const img = f.querySelector(".ph img"); img.alt = p.caption || "Work sample";
+      f.classList.toggle("nocap", !p.caption); f.classList.toggle("linked", !!p.link); };
     const pick = f => { picked = f; pics().forEach(x => x.classList.toggle("picked", x === f)); const sel = $p(".arr-sel"); sel.hidden = !f;
-      if (f) { $p(".arr-cap").value = f._pic.caption; $p(".arr-style").value = f._pic.style; } };
+      if (f) { $p(".arr-cap").value = f._pic.caption; $p(".arr-style").value = f._pic.style; $p(".arr-link").value = f._pic.link || ""; } };
     const wire = f => {
       f.style.transform = "none"; if (!f.querySelector(".arr-handle")) { const h = document.createElement("i"); h.className = "arr-handle"; f.appendChild(h); }
       f.addEventListener("pointerdown", e => {
@@ -1464,6 +1495,7 @@ addEventListener("keydown", e => {
     };
     pics().forEach(wire);
     $p(".arr-cap").addEventListener("input", e => { if (!picked) return; picked._pic.caption = e.target.value; render(picked); touch(); });
+    $p(".arr-link").addEventListener("input", e => { if (!picked) return; const v = e.target.value.trim(); picked._pic.link = /^https?:\/\//i.test(v) ? v : ""; if (window.gatePicDecorate) window.gatePicDecorate(picked); render(picked); touch(); });
     $p(".arr-style").addEventListener("change", e => { if (!picked) return; picked._pic.style = e.target.value; render(picked); touch(); });
     // images chosen here are shrunk to a web-friendly size before upload; see-through areas are kept
     const pending = new Map();   // file name -> base64 to upload on Save
@@ -1496,7 +1528,7 @@ addEventListener("keydown", e => {
       else if (e.key === "[" || e.key === "]") { picked._pic.tilt += e.key === "]" ? 1 : -1; render(picked); touch(); } });
 
     // build the new page-text.txt: the words as edited, picture lines from the current arrangement
-    const picLines = () => pics().map((f, i) => { const p = f._pic; return `picture ${i + 1}: file = ${p.file} | caption = ${p.caption} | style = ${p.style} | left = ${r1(p.left)} | top = ${r1(p.top)} | width = ${r1(p.width)} | tilt = ${r1(p.tilt)}`; });
+    const picLines = () => pics().map((f, i) => { const p = f._pic; return `picture ${i + 1}: file = ${p.file} | caption = ${p.caption} | style = ${p.style} | left = ${r1(p.left)} | top = ${r1(p.top)} | width = ${r1(p.width)} | tilt = ${r1(p.tilt)}` + (p.link ? ` | link = ${p.link}` : ""); });
     const compose = () => {
       const words = textArea.value.replace(/\s+$/, "").split("\n")
         .filter((l, i, a) => !(l.trim() === "# ---------- WORK PICTURES ----------"))   // tidy duplicates from older saves
