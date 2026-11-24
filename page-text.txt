@@ -57,8 +57,6 @@ scroll hint: Scroll
 #   left / top = where its top-left corner sits, in % of the picture area
 #   width      = how wide it is, in % of the picture area
 #   tilt       = rotation in degrees (minus tilts left)
-#   link       = (optional) a web address; the picture opens it when clicked
-#                and shows the magnifier in its top-right corner
 #
 #  REMOVE a picture:  delete its line, or write   picture 3: off
 #  REPLACE a picture: upload the new image to the "pictures" folder
@@ -68,7 +66,7 @@ scroll hint: Scroll
 #           remove, replace or add pictures and edit these words, then Save.
 
 
-picture 1: file = linkedin-feed-post-monie-hero-dark-1080-1350-2x-mwuz1i4i.webp | caption =  | style = card | left = 29.8 | top = 21.7 | width = 61 | tilt = 0 | link = https://theindieconsultant.github.io/moveme/
+picture 1: file = linkedin-feed-post-monie-hero-dark-1080-1350-2x-mwuz1i4i.webp | caption =  | style = card | left = 29.8 | top = 21.7 | width = 61 | tilt = 0
 
 # ---------- SECTION 1: METHODS ----------
 section 1 label: 01 / What I do
