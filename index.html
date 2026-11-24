@@ -324,12 +324,31 @@ header.bar { position: relative; z-index: 50; }
 .gate .arr-handle { display: none; }
 .gate.arranging .arr-handle { display: block; position: absolute; right: -10px; bottom: -10px; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #3d6ff2; cursor: nwse-resize; z-index: 5; }
 .gate.arranging .xhair, .gate.arranging .note, .gate.arranging .arrow-draw { display: none; }
-.arr-panel { position: fixed; z-index: 100; left: 20px; bottom: 20px; width: min(520px, calc(100vw - 40px)); display: grid; gap: 8px; padding: 14px; border-radius: 8px; background: #0d0f13; border: 1px solid #3d6ff2; box-shadow: 0 20px 50px rgba(0,0,0,.6); color: var(--text); font-size: 13px; line-height: 1.45; }
+.arr-panel { position: fixed; z-index: 100; left: 20px; bottom: 20px; width: min(440px, calc(100vw - 40px)); max-height: calc(100vh - 40px); overflow: auto; padding: 14px; border-radius: 10px; background: #0d0f13; border: 1px solid #3d6ff2; box-shadow: 0 20px 50px rgba(0,0,0,.6); color: var(--text); font-size: 13px; line-height: 1.45; }
+.arr-panel.min .arr-body { display: none; }
+.arr-head { display: flex; align-items: center; justify-content: space-between; }
+.arr-head b { font-size: 14px; }
+.arr-body { display: grid; gap: 10px; margin-top: 10px; }
 .arr-panel p { margin: 0; color: var(--muted); }
-.arr-panel kbd { font-family: var(--f-mono); font-size: 11px; border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; }
-.arr-panel textarea { height: 120px; resize: vertical; background: #15171d; color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 8px; font: 11px/1.5 var(--f-mono); white-space: pre; }
-.arr-panel button { justify-self: start; background: var(--brass); color: #15171d; border: 0; border-radius: 4px; padding: 9px 14px; font-weight: 700; cursor: pointer; }
-.arr-panel small { color: var(--muted); }
+.arr-panel label { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.arr-panel input[type=text], .arr-panel input[type=password], .arr-panel select, .arr-panel textarea { width: 100%; box-sizing: border-box; background: #15171d; color: var(--text); border: 1px solid var(--line); border-radius: 5px; padding: 8px 10px; font: 13px/1.4 var(--f-body); }
+.arr-panel textarea { height: 300px; resize: vertical; font: 12px/1.55 var(--f-mono); }
+.arr-panel button { background: #1c1f27; color: var(--text); border: 1px solid var(--line); border-radius: 5px; padding: 7px 11px; font: 600 12.5px/1 var(--f-body); cursor: pointer; }
+.arr-panel button:hover { border-color: #8fb4ff; }
+.arr-panel button.danger { color: #ff8a8a; border-color: rgba(255,138,138,.4); }
+.arr-panel .arr-save { background: var(--brass); color: #15171d; border: 0; padding: 10px 16px; font-size: 14px; }
+.arr-panel .arr-save:disabled { opacity: .6; cursor: wait; }
+.arr-panel .arr-min { padding: 2px 9px; font-size: 16px; }
+.arr-tabs { display: flex; gap: 4px; }
+.arr-tabs button.on { background: #3d6ff2; border-color: #3d6ff2; color: #fff; }
+.arr-tab, .arr-sel { display: grid; gap: 10px; }
+.arr-sel { padding: 10px; border: 1px solid var(--line); border-radius: 6px; }
+.arr-tab[hidden], .arr-sel[hidden], .arr-key[hidden] { display: none; }
+.arr-key { display: grid; gap: 6px; padding: 10px; border-radius: 6px; background: rgba(213,245,60,.07); border: 1px solid rgba(213,245,60,.35); }
+.arr-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.arr-status { font-size: 12.5px; color: var(--muted); }
+.arr-status.ok { color: var(--brass); } .arr-status.err { color: #ff8a8a; }
+.arr-panel small, .arr-panel small a { color: var(--muted); font-size: 11.5px; }
 .gate .snip.polaroid .cap { font-size: 13px; }
 </style>
 <title>HL·UX Deck Room</title>
@@ -610,8 +629,6 @@ label { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color
       <div class="deco gear" data-d=".25" style="left:18%;top:10%;width:64%"><div class="in" style="--i:0"><svg viewBox="-4 -4 108 108" aria-hidden="true"><g class="rot" id="gearA"><path class="teeth" fill-rule="evenodd" d="M90.00,50.00 L89.89,53.01 L99.52,56.89 L97.74,64.85 L87.37,64.26 L82.36,73.51 L80.50,75.88 L86.02,84.68 L79.90,90.08 L71.86,83.50 L62.36,88.04 L59.46,88.87 L58.75,99.23 L50.63,100.00 L47.99,89.95 L37.64,88.04 L34.81,87.00 L28.14,94.97 L21.12,90.82 L24.89,81.14 L17.64,73.51 L15.96,71.01 L5.89,73.54 L2.65,66.05 L11.38,60.43 L10.00,50.00 L10.11,46.99 L0.48,43.11 L2.26,35.15 L12.63,35.74 L17.64,26.49 L19.50,24.12 L13.98,15.32 L20.10,9.92 L28.14,16.50 L37.64,11.96 L40.54,11.13 L41.25,0.77 L49.37,0.00 L52.01,10.05 L62.36,11.96 L65.19,13.00 L71.86,5.03 L78.88,9.18 L75.11,18.86 L82.36,26.49 L84.04,28.99 L94.11,26.46 L97.35,33.95 L88.62,39.57Z M72,50 A22,22 0 1 0 28,50 A22,22 0 1 0 72,50Z"/></g>
 <circle class="core" cx="50" cy="50" r="31"/><svg x="34" y="34" width="32" height="32" viewBox="75 35 1025 1061"><path fill="#15171d" fill-rule="evenodd" d="M1028.0,1091.5C1010.1,1089.3 977.8,1083.8 973.7,1082.4C971.5,1081.6 965.9,1081.0 961.1,1081.0C945.3,1081.0 936.0,1077.1 924.9,1066.1C918.5,1059.7 916.5,1056.8 912.2,1048.0C909.4,1042.2 905.3,1032.1 903.0,1025.6C900.8,1019.0 896.4,1008.9 893.3,1003.1C879.3,976.8 873.0,963.6 870.5,955.6L867.8,947.0L856.0,968.4C849.5,980.2 841.0,996.1 837.1,1003.7C833.2,1011.3 827.1,1021.4 823.6,1026.1C814.8,1037.8 795.6,1056.1 788.5,1059.5C782.3,1062.6 779.6,1062.6 763.5,1059.6C752.6,1057.6 737.4,1056.3 706.0,1054.5C664.1,1052.1 655.9,1050.5 647.9,1043.3C643.1,1039.0 641.7,1034.6 642.2,1026.0C642.5,1020.0 643.3,1017.6 648.7,1006.8C657.0,990.3 680.8,947.4 705.8,903.5C737.2,848.7 764.5,792.9 765.7,781.3C766.6,773.4 764.8,768.4 753.6,747.1C722.9,688.9 654.3,555.1 652.4,549.9C651.6,547.5 650.9,542.4 650.8,538.7C650.8,529.9 654.7,521.4 661.9,514.7C668.9,508.1 675.7,506.3 686.5,507.9C706.7,510.9 724.2,513.0 744.0,514.9C775.5,517.9 781.0,519.8 791.0,530.7L796.3,536.5L808.9,536.5C820.9,536.5 821.7,536.6 826.2,539.3C836.1,545.1 838.1,552.0 844.0,600.0C846.3,618.0 850.3,626.1 857.8,627.6C860.0,628.1 861.8,627.7 863.7,626.4C867.7,623.9 868.4,622.9 875.0,609.2C878.3,602.5 884.1,592.6 887.8,587.2C899.6,570.6 904.5,561.2 909.1,546.2C911.5,538.5 915.8,533.4 921.1,532.0C925.2,530.9 926.2,531.0 942.0,534.0C947.2,535.0 960.3,536.8 971.0,538.0C981.7,539.1 995.4,541.0 1001.3,542.1C1022.0,545.9 1039.2,553.7 1050.8,564.5C1061.0,573.9 1063.1,582.8 1058.4,596.5C1052.0,615.4 1028.0,667.2 1000.1,722.5C984.7,752.9 976.8,769.7 975.7,774.2C973.6,782.6 973.5,795.4 975.6,803.4C976.4,806.7 987.0,830.2 999.0,855.5C1025.6,911.6 1029.7,920.5 1061.0,988.0C1074.9,1018.0 1088.2,1045.4 1091.4,1050.4C1096.1,1057.9 1097.0,1060.0 1097.0,1063.9C1097.0,1068.4 1096.7,1068.8 1088.6,1076.6C1082.5,1082.6 1078.1,1085.8 1072.4,1088.6C1064.7,1092.5 1064.5,1092.5 1051.6,1092.7C1044.4,1092.8 1033.8,1092.3 1028.0,1091.5ZM538.0,845.9C520.7,845.5 483.3,844.7 455.0,844.0C401.8,842.9 364.6,841.7 256.0,837.5C221.1,836.2 172.7,834.6 148.5,834.0C97.7,832.7 92.3,832.1 87.4,827.8C82.1,823.2 80.9,819.1 80.1,804.5C78.7,779.8 80.5,753.3 87.5,698.5C89.4,683.6 91.4,666.3 92.0,660.0C92.6,653.7 94.2,643.3 95.5,637.0C99.3,618.6 101.8,599.6 104.5,567.5C108.1,524.7 108.9,518.0 111.0,513.3C114.4,505.5 119.1,504.0 141.0,503.9C152.3,503.9 163.2,504.7 181.5,506.9C195.2,508.5 212.3,510.1 219.3,510.4C229.4,510.8 233.0,511.3 236.3,512.9C238.7,514.1 245.6,520.1 252.3,527.0C258.9,533.6 264.6,539.0 265.0,539.0C265.5,539.0 267.2,540.2 268.9,541.6C272.7,544.7 272.8,547.4 270.1,561.0C268.8,567.3 267.7,578.7 267.0,594.5C265.5,627.7 263.0,644.2 256.6,662.9C251.9,676.5 253.8,681.2 264.9,683.4C266.8,683.7 297.6,684.9 333.4,686.0C441.2,689.3 497.3,691.6 541.0,694.6C553.4,695.5 575.9,696.5 591.0,696.8C629.5,697.8 628.4,697.0 629.5,727.0C629.8,737.2 630.8,758.3 631.6,774.0C632.4,789.7 633.1,809.9 633.3,819.0C633.5,838.3 632.7,840.8 625.0,844.8C620.7,846.9 619.7,847.0 595.0,846.8C581.0,846.8 555.3,846.3 538.0,845.9ZM619.8,482.4C615.5,480.1 614.6,477.4 614.3,465.3C614.2,459.2 612.7,445.4 611.1,434.8C606.0,401.5 606.1,389.8 611.6,373.0C615.4,361.6 619.9,355.4 626.8,352.2L632.5,349.6L695.0,349.4C754.8,349.2 797.2,348.2 838.5,346.0C876.4,343.9 903.6,341.9 910.5,340.5C928.4,336.7 936.0,328.3 936.0,312.0C936.0,300.4 932.3,293.7 923.7,289.6C913.2,284.8 891.7,282.4 867.0,283.4C813.2,285.6 799.8,285.9 764.2,285.9C721.8,286.0 699.8,287.0 674.0,290.0C656.9,292.0 653.6,292.0 632.6,288.9C627.9,288.2 620.7,288.0 615.0,288.4C600.8,289.3 600.0,288.5 595.2,267.0C589.5,241.8 589.1,234.2 591.8,197.0C592.8,184.1 594.6,179.2 600.2,174.5C607.3,168.5 616.7,166.0 641.5,163.6C686.3,159.2 736.5,157.7 824.5,158.2C887.0,158.6 892.4,158.8 904.8,160.8C948.9,167.9 985.8,182.4 1024.5,207.8C1051.3,225.4 1063.4,242.3 1071.0,272.2C1078.0,300.3 1080.5,336.8 1076.7,357.5C1069.8,395.4 1045.6,427.8 1011.5,444.8C978.8,461.0 936.7,467.5 837.0,471.5C781.8,473.7 732.8,476.9 728.0,478.6C727.2,478.9 707.6,479.6 684.5,480.0C653.2,480.7 640.6,481.3 635.0,482.4C625.8,484.3 623.3,484.3 619.8,482.4ZM193.0,452.9C188.3,452.4 172.0,452.1 156.8,452.3C130.1,452.5 129.1,452.4 126.3,450.4C121.6,446.8 120.0,442.9 118.5,430.5C113.4,389.9 114.7,344.2 122.5,279.0C127.7,236.1 128.9,216.2 130.0,160.5L130.9,116.5L134.6,100.0C138.1,84.6 138.3,82.3 138.4,66.5C138.5,57.1 138.9,48.9 139.3,48.2C139.8,47.5 141.4,46.4 142.8,45.9C146.4,44.5 195.2,41.9 222.0,41.7C243.2,41.5 243.6,41.5 248.0,44.0C254.7,47.7 257.3,53.3 256.6,62.5C256.3,66.3 255.4,71.8 254.5,74.6C253.3,78.7 253.0,87.5 252.8,120.8C252.5,159.1 252.6,162.0 254.3,163.7C255.9,165.3 258.5,165.5 282.3,165.6C304.0,165.7 310.8,166.1 322.0,167.8C338.1,170.4 343.1,170.5 347.5,168.4C353.0,165.8 354.4,161.5 353.4,150.1C352.1,136.4 352.5,119.9 354.5,101.5C355.9,89.2 356.1,81.3 355.6,67.3L355.0,49.1L357.5,46.2C361.0,42.0 369.7,39.8 385.1,39.2C413.3,38.2 438.4,46.3 473.0,67.6C487.9,76.8 488.9,77.6 490.7,81.8C493.6,88.7 496.9,138.9 500.0,224.0C501.9,275.0 502.8,293.3 506.5,358.0C508.4,389.1 508.6,421.6 507.0,428.7C503.7,443.9 494.5,447.0 462.9,443.5C446.3,441.7 443.4,441.7 383.9,443.6C365.5,444.2 364.1,444.1 359.7,442.2C355.9,440.5 354.5,439.2 353.0,435.8C351.2,431.8 351.1,429.9 351.6,408.0C352.0,391.3 351.8,377.3 350.6,359.8C349.7,346.2 349.0,331.5 349.0,327.1C349.0,313.9 346.1,309.2 336.9,307.5C335.0,307.2 321.5,307.8 307.0,309.0C281.4,311.1 261.4,311.3 249.3,309.4C245.7,308.8 244.8,309.1 242.5,311.4C240.3,313.6 239.9,314.7 240.4,317.3C240.7,319.1 241.2,333.6 241.6,349.5C242.3,382.3 241.3,400.8 237.4,422.0C232.9,447.1 227.9,453.0 210.2,453.5C205.4,453.7 197.7,453.4 193.0,452.9Z"/></svg></svg></div></div>
       <div class="deco gear sm" data-d="-.35" style="left:3%;top:4%;width:20%"><div class="in" style="--i:1"><svg viewBox="-4 -4 108 108" aria-hidden="true"><g class="rot" id="gearB"><path class="teeth" fill-rule="evenodd" d="M88.00,50.00 L87.83,53.58 L99.26,58.60 L96.49,68.41 L84.13,66.72 L76.87,76.87 L74.22,79.28 L78.75,90.91 L69.86,95.89 L62.31,85.95 L50.00,88.00 L46.42,87.83 L41.40,99.26 L31.59,96.49 L33.28,84.13 L23.13,76.87 L20.72,74.22 L9.09,78.75 L4.11,69.86 L14.05,62.31 L12.00,50.00 L12.17,46.42 L0.74,41.40 L3.51,31.59 L15.87,33.28 L23.13,23.13 L25.78,20.72 L21.25,9.09 L30.14,4.11 L37.69,14.05 L50.00,12.00 L53.58,12.17 L58.60,0.74 L68.41,3.51 L66.72,15.87 L76.87,23.13 L79.28,25.78 L90.91,21.25 L95.89,30.14 L85.95,37.69Z M66,50 A16,16 0 1 0 34,50 A16,16 0 1 0 66,50Z" style="stroke-width:3"/></g></svg></div></div>
-      <figure class="snip card" data-d="0.45" data-pic="1" style="left:47%;top:1%;width:36%"><div class="in" style="--r:6deg;--i:0"><span class="tape" aria-hidden="true"></span><div class="ph"><img src="pictures/prima-design-system.webp" alt="Prima design system · Aroris" decoding="async"></div><figcaption class="cap">Prima design system · Aroris</figcaption></div></figure>
-      <figure class="snip cut" data-d="0.95" data-pic="2" style="left:-3%;top:15%;width:68%"><div class="in" style="--r:-2deg;--i:1"><div class="ph"><img src="pictures/aroris-laptop-tablet.webp" alt="Agentic AI workflows · Aroris Health" decoding="async"></div><figcaption class="cap">Agentic AI workflows · Aroris Health</figcaption></div></figure>
       <figure class="snip card polaroid" data-d="0.6" data-pic="3" style="left:77%;top:30%;width:23%"><div class="in" style="--r:5deg;--i:2"><span class="tape" aria-hidden="true"></span><div class="ph"><img src="pictures/heatherlee-photo.webp" alt="hi, I’m Heatherlee" decoding="async"></div><figcaption class="cap">hi, I’m Heatherlee</figcaption></div></figure>
       <figure class="snip card" data-d="0.7" data-pic="4" style="left:1%;top:60%;width:44%"><div class="in" style="--r:-5deg;--i:3"><span class="tape" aria-hidden="true"></span><div class="ph"><img src="pictures/netra-design-system.webp" alt="Netra design system · Optum" decoding="async"></div><figcaption class="cap">Netra design system · Optum</figcaption></div></figure>
       <figure class="snip cut" data-d="0.7" data-pic="5" style="left:6%;top:73%;width:33%"><div class="in" style="--r:-1deg;--i:4"><div class="ph"><img src="pictures/color-swatches.webp" alt="Work sample" decoding="async"></div></div></figure>
@@ -1334,44 +1351,149 @@ addEventListener("keydown", e => {
   }
   const ctl = new AbortController(); setTimeout(() => ctl.abort(), 2500);
   fetch("page-text.txt?v=" + Date.now(), { cache: "no-store", signal: ctl.signal })
-    .then(r => r.ok ? r.text() : "").then(t => { if (t) { try { apply(parse(t)); } catch (e) { console.warn("page-text.txt:", e); } } })
-    .catch(() => {}).finally(() => { release(); if (/[?&]arrange\b/.test(location.search)) arrange(); });
+    .then(r => r.ok ? r.text() : "").then(t => { if (t) { window.gatePageText = t; try { apply(parse(t)); } catch (e) { console.warn("page-text.txt:", e); } } })
+    .catch(() => {}).finally(() => { release(); if (/[?&](arrange|edit)\b/.test(location.search)) arrange(); });
 
-  /* ----- arrange mode: open the page with ?arrange to drag, resize and tilt the pictures, then copy the lines ----- */
+  /* ----- edit mode: open the page with ?edit to arrange, remove, replace or add pictures and edit the words, then Save ----- */
   function arrange() {
     const col = q("#collage"); if (!col) return;
-    if (!qa(".collage .snip").some(f => f._pic)) {   // no picture lines loaded: describe the built-in pictures
-      qa(".collage .snip").forEach((f, i) => { const st = f.style, inn = f.querySelector(".in"), img = f.querySelector("img");
-        f._pic = { n: i + 1, file: decodeURIComponent((img.getAttribute("src") || "").replace(/^pictures\//, "")), caption: (f.querySelector(".cap") || {}).textContent || "",
-          style: f.classList.contains("polaroid") ? "photo" : f.classList.contains("cut") ? "cutout" : "card",
-          left: parseFloat(st.left), top: parseFloat(st.top), width: parseFloat(st.width), tilt: parseFloat(inn.style.getPropertyValue("--r")) || 0, depth: +f.dataset.d }; });
-    }
+    const OWNER = "theindieconsultant", REPO = "mywork", BRANCH = "main", API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
+    const KEY = "hl-gh-token"; const getTok = () => { try { return localStorage.getItem(KEY) || ""; } catch (_) { return ""; } };
+    const setTok = v => { try { v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); } catch (_) {} };
+    const STYLE_OF = f => f.classList.contains("polaroid") ? "photo" : f.classList.contains("cut") ? "cutout" : "card";
+    qa(".collage .snip").forEach((f, i) => { if (f._pic) return; const st = f.style, inn = f.querySelector(".in"), img = f.querySelector("img");
+      f._pic = { n: i + 1, file: decodeURIComponent((img.getAttribute("src") || "").replace(/^pictures\//, "")), caption: (f.querySelector(".cap") || {}).textContent || "",
+        style: STYLE_OF(f), left: parseFloat(st.left), top: parseFloat(st.top), width: parseFloat(st.width), tilt: parseFloat(inn.style.getPropertyValue("--r")) || 0, depth: +f.dataset.d }; });
     gate.classList.add("arranging");
     const r1 = v => Math.round(v * 10) / 10;
     const panel = document.createElement("div"); panel.className = "arr-panel";
-    panel.innerHTML = `<b>Arrange pictures</b><p>Drag a picture to move it. Drag its corner dot to resize. Click one, then use <kbd>[</kbd> <kbd>]</kbd> to tilt and <kbd>↑</kbd> <kbd>↓</kbd> to bring it forward or back.</p><textarea readonly spellcheck="false"></textarea><button type="button">Copy picture lines</button><small>Paste them into page-text.txt in place of the old "picture" lines, then commit.</small>`;
-    gate.appendChild(panel); const ta = panel.querySelector("textarea"), btn = panel.querySelector("button");
-    const line = (p, i) => `picture ${i + 1}: file = ${p.file} | caption = ${p.caption} | style = ${p.style} | left = ${r1(p.left)} | top = ${r1(p.top)} | width = ${r1(p.width)} | tilt = ${r1(p.tilt)}`;
-    const sync = () => { const figs = qa(".collage .snip"); ta.value = figs.map((f, i) => line(f._pic, i)).join("\n"); };
-    const apply = f => { const p = f._pic; f.style.left = p.left + "%"; f.style.top = p.top + "%"; f.style.width = p.width + "%"; f.querySelector(".in").style.setProperty("--r", p.tilt + "deg"); sync(); };
+    panel.innerHTML = `
+      <div class="arr-head"><b>Edit your page</b><button type="button" class="arr-min" aria-label="Minimize">–</button></div>
+      <div class="arr-body">
+        <div class="arr-tabs" role="tablist"><button type="button" class="on" data-tab="pics">Pictures</button><button type="button" data-tab="text">Words</button></div>
+        <div class="arr-tab" data-tab="pics">
+          <p>Drag a picture to move it · drag its blue corner dot to resize · click one to edit it below.</p>
+          <div class="arr-sel" hidden>
+            <label>Caption <input type="text" class="arr-cap" placeholder="(no caption)"></label>
+            <label>Style <select class="arr-style"><option value="card">card (white frame + tape)</option><option value="photo">photo (polaroid)</option><option value="cutout">cutout (no frame)</option></select></label>
+            <div class="arr-row"><button type="button" data-act="tilt-">↺ Tilt</button><button type="button" data-act="tilt+">↻ Tilt</button><button type="button" data-act="fwd">Bring forward</button><button type="button" data-act="back">Send back</button></div>
+            <div class="arr-row"><button type="button" data-act="replace">Replace image…</button><button type="button" data-act="remove" class="danger">Remove picture</button></div>
+          </div>
+          <div class="arr-row"><button type="button" data-act="add">+ Add a picture…</button></div>
+        </div>
+        <div class="arr-tab" data-tab="text" hidden>
+          <p>Change the words to the right of each colon. *Stars* make words neon or bold; | separates list items.</p>
+          <textarea class="arr-text" spellcheck="true"></textarea>
+        </div>
+        <div class="arr-key" hidden>
+          <p><b>One-time setup:</b> paste your GitHub key so this page can save for you. It's stored only in this browser.</p>
+          <input type="password" class="arr-tok" placeholder="github_pat_…" autocomplete="off">
+        </div>
+        <div class="arr-row arr-foot"><button type="button" class="arr-save">Save to site</button><span class="arr-status" role="status"></span></div>
+        <small class="arr-forget"><a href="#" class="arr-logout">Forget my key on this browser</a> · <a href="./">Leave edit mode</a></small>
+      </div>
+      <input type="file" class="arr-file" accept="image/*" hidden>`;
+    gate.appendChild(panel);
+    const $p = sel => panel.querySelector(sel), status = $p(".arr-status"), saveBtn = $p(".arr-save"), fileIn = $p(".arr-file");
+    const say = (t, cls) => { status.textContent = t; status.className = "arr-status" + (cls ? " " + cls : ""); };
+    let dirty = false; const touch = () => { dirty = true; say("Unsaved changes"); };
+    addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+    $p(".arr-min").addEventListener("click", () => panel.classList.toggle("min"));
+    panel.querySelectorAll(".arr-tabs button").forEach(b => b.addEventListener("click", () => {
+      panel.querySelectorAll(".arr-tabs button").forEach(x => x.classList.toggle("on", x === b));
+      panel.querySelectorAll(".arr-tab").forEach(t => t.hidden = t.dataset.tab !== b.dataset.tab); }));
+    // words: the file without the picture lines (those come from the arrangement)
+    const isPic = l => /^\s*picture\s+\d+\s*:/i.test(l);
+    const textArea = $p(".arr-text");
+    textArea.value = (window.gatePageText || "").split(/\r?\n/).filter(l => !isPic(l)).join("\n");
+    textArea.addEventListener("input", touch);
+    if (!getTok()) $p(".arr-key").hidden = false;
+
+    // pictures
     let picked = null;
-    const pick = f => { qa(".collage .snip.picked").forEach(x => x.classList.remove("picked")); picked = f; if (f) f.classList.add("picked"); };
-    qa(".collage .snip").forEach(f => {
-      f.style.transform = "none"; const h = document.createElement("i"); h.className = "arr-handle"; f.appendChild(h);
+    const pics = () => qa(".collage .snip");
+    const kindClass = st => st === "photo" ? "card polaroid" : st === "cutout" ? "cut" : "card";
+    const render = f => { const p = f._pic; f.style.left = p.left + "%"; f.style.top = p.top + "%"; f.style.width = p.width + "%";
+      const inn = f.querySelector(".in"); inn.style.setProperty("--r", p.tilt + "deg");
+      f.className = "snip " + kindClass(p.style) + (f === picked ? " picked" : "");
+      inn.querySelector(".tape")?.remove(); if (p.style !== "cutout") inn.insertAdjacentHTML("afterbegin", '<span class="tape" aria-hidden="true"></span>');
+      let cap = inn.querySelector(".cap"); if (p.caption) { if (!cap) { cap = document.createElement("figcaption"); cap.className = "cap"; inn.querySelector(".ph").after(cap); } cap.textContent = p.caption; } else if (cap) cap.remove();
+      const img = f.querySelector(".ph img"); img.alt = p.caption || "Work sample"; };
+    const pick = f => { picked = f; pics().forEach(x => x.classList.toggle("picked", x === f)); const sel = $p(".arr-sel"); sel.hidden = !f;
+      if (f) { $p(".arr-cap").value = f._pic.caption; $p(".arr-style").value = f._pic.style; } };
+    const wire = f => {
+      f.style.transform = "none"; if (!f.querySelector(".arr-handle")) { const h = document.createElement("i"); h.className = "arr-handle"; f.appendChild(h); }
       f.addEventListener("pointerdown", e => {
-        e.preventDefault(); pick(f); const box = col.getBoundingClientRect(), p = f._pic, sx = e.clientX, sy = e.clientY, s0 = { ...p }, resize = e.target === h;
-        const move = ev => { const dx = (ev.clientX - sx) / box.width * 100, dy = (ev.clientY - sy) / box.height * 100;
-          if (resize) p.width = Math.max(5, s0.width + dx); else { p.left = s0.left + dx; p.top = s0.top + dy; } apply(f); };
-        const up = () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); };
+        e.preventDefault(); pick(f); const box = col.getBoundingClientRect(), p = f._pic, sx = e.clientX, sy = e.clientY, s0 = { ...p }, resize = e.target.classList.contains("arr-handle");
+        let moved = false;
+        const move = ev => { const dx = (ev.clientX - sx) / box.width * 100, dy = (ev.clientY - sy) / box.height * 100; moved = true;
+          if (resize) p.width = Math.max(5, r1(s0.width + dx)); else { p.left = r1(s0.left + dx); p.top = r1(s0.top + dy); } render(f); };
+        const up = () => { removeEventListener("pointermove", move); removeEventListener("pointerup", up); if (moved) touch(); };
         addEventListener("pointermove", move); addEventListener("pointerup", up);
       });
+    };
+    pics().forEach(wire);
+    $p(".arr-cap").addEventListener("input", e => { if (!picked) return; picked._pic.caption = e.target.value; render(picked); touch(); });
+    $p(".arr-style").addEventListener("change", e => { if (!picked) return; picked._pic.style = e.target.value; render(picked); touch(); });
+    // images chosen here are shrunk to a web-friendly size before upload; see-through areas are kept
+    const pending = new Map();   // file name -> base64 to upload on Save
+    const prep = file => new Promise((res, rej) => { const url = URL.createObjectURL(file), im = new Image();
+      im.onload = () => { const max = 1400, sc = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight)); const c = document.createElement("canvas");
+        c.width = Math.round(im.naturalWidth * sc); c.height = Math.round(im.naturalHeight * sc); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        c.toBlob(b => { if (!b) return rej(new Error("Couldn't read that image")); const ext = b.type === "image/webp" ? "webp" : "png";
+          const base = (file.name.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "picture") + "-" + Date.now().toString(36);
+          const rd = new FileReader(); rd.onload = () => res({ name: base + "." + ext, b64: String(rd.result).split(",")[1], blobUrl: URL.createObjectURL(b) }); rd.readAsDataURL(b); }, "image/webp", .86); };
+      im.onerror = () => rej(new Error("That file isn't an image this browser can open")); im.src = url; });
+    let fileMode = "add";
+    fileIn.addEventListener("change", async () => { const file = fileIn.files[0]; fileIn.value = ""; if (!file) return;
+      try { say("Preparing image…"); const r = await prep(file); pending.set(r.name, r.b64);
+        if (fileMode === "replace" && picked) { picked._pic.file = r.name; picked.querySelector(".ph img").src = r.blobUrl; }
+        else { const f = document.createElement("figure"); const n = pics().length + 1;
+          f._pic = { n, file: r.name, caption: "", style: "card", left: 30, top: 30, width: 35, tilt: 0, depth: .8 };
+          f.dataset.d = .8; f.innerHTML = `<div class="in" style="--r:0deg"><div class="ph"><img src="${r.blobUrl}" alt="Work sample"></div></div>`;
+          col.insertBefore(f, col.querySelector(".deco.mag")); render(f); wire(f); pick(f); }
+        touch(); } catch (e) { say(e.message, "err"); } });
+    panel.addEventListener("click", e => { const b = e.target.closest("[data-act]"); if (!b) return; const act = b.dataset.act;
+      if (act === "add" || act === "replace") { fileMode = act; fileIn.click(); return; }
+      if (!picked) return; const p = picked._pic;
+      if (act === "tilt-" || act === "tilt+") { p.tilt += act === "tilt+" ? 2 : -2; render(picked); }
+      else if (act === "fwd") { const n = picked.nextElementSibling; if (n && n.classList.contains("snip")) n.after(picked); }
+      else if (act === "back") { const n = picked.previousElementSibling; if (n && n.classList.contains("snip")) n.before(picked); }
+      else if (act === "remove") { picked.remove(); pick(null); }
+      touch(); });
+    addEventListener("keydown", e => { if (!picked || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); picked.remove(); pick(null); touch(); }
+      else if (e.key === "[" || e.key === "]") { picked._pic.tilt += e.key === "]" ? 1 : -1; render(picked); touch(); } });
+
+    // build the new page-text.txt: the words as edited, picture lines from the current arrangement
+    const picLines = () => pics().map((f, i) => { const p = f._pic; return `picture ${i + 1}: file = ${p.file} | caption = ${p.caption} | style = ${p.style} | left = ${r1(p.left)} | top = ${r1(p.top)} | width = ${r1(p.width)} | tilt = ${r1(p.tilt)}`; });
+    const compose = () => { const words = textArea.value.replace(/\s+$/, "").split("\n"); const orig = (window.gatePageText || "").split(/\r?\n/);
+      // put the picture lines back where they were (after the line that preceded the first picture line)
+      const first = orig.findIndex(isPic); const anchor = first > 0 ? orig[first - 1] : null; let at = anchor !== null ? words.lastIndexOf(anchor) : -1;
+      const lines = picLines(); if (at >= 0) words.splice(at + 1, 0, ...lines); else words.push("", "# ---------- WORK PICTURES ----------", ...lines);
+      return words.join("\n") + "\n"; };
+    const b64 = str => btoa(unescape(encodeURIComponent(str)));
+    const gh = async (path, opts = {}) => { const r = await fetch(API + path.split("/").map(encodeURIComponent).join("/") + (opts.method ? "" : `?ref=${BRANCH}&t=${Date.now()}`),
+        { ...opts, headers: { Authorization: "Bearer " + getTok(), Accept: "application/vnd.github+json", ...(opts.body ? { "Content-Type": "application/json" } : {}) } });
+      if (r.status === 404 && !opts.method) return null; const j = await r.json().catch(() => ({}));
+      if (!r.ok) { const err = new Error(r.status === 401 ? "GitHub didn't accept the key. Check it and try again." : r.status === 403 || r.status === 404 ? "The key can't write to the mywork repository. Give it Contents: Read and write on mywork." : (j.message || "GitHub error " + r.status)); err.status = r.status; throw err; }
+      return j; };
+    $p(".arr-logout").addEventListener("click", e => { e.preventDefault(); setTok(""); $p(".arr-key").hidden = false; say("Key forgotten on this browser"); });
+    saveBtn.addEventListener("click", async () => {
+      const typed = $p(".arr-tok").value.trim(); if (typed) setTok(typed);
+      if (!getTok()) { $p(".arr-key").hidden = false; $p(".arr-tok").focus(); say("Paste your GitHub key first", "err"); return; }
+      saveBtn.disabled = true;
+      try {
+        for (const [name, data] of pending) { say("Uploading " + name + "…"); const cur = await gh("pictures/" + name);
+          await gh("pictures/" + name, { method: "PUT", body: JSON.stringify({ message: "Add picture " + name + " (from edit mode)", content: data, branch: BRANCH, ...(cur ? { sha: cur.sha } : {}) }) }); }
+        pending.clear();
+        say("Saving words and pictures…"); const cur = await gh("page-text.txt"); const next = compose();
+        await gh("page-text.txt", { method: "PUT", body: JSON.stringify({ message: "Update page words and pictures (from edit mode)", content: b64(next), branch: BRANCH, sha: cur && cur.sha }) });
+        window.gatePageText = next; $p(".arr-key").hidden = true; $p(".arr-tok").value = ""; dirty = false;
+        say("Saved ✓ Live on your site in about a minute.", "ok");
+      } catch (e) { say(e.message, "err"); if (e.status === 401) { setTok(""); $p(".arr-key").hidden = false; } }
+      finally { saveBtn.disabled = false; }
     });
-    addEventListener("keydown", e => { if (!picked || e.target === ta) return; const p = picked._pic;
-      if (e.key === "[" || e.key === "]") { p.tilt += e.key === "]" ? 1 : -1; apply(picked); }
-      else if (e.key === "ArrowUp" && picked.nextElementSibling && picked.nextElementSibling.classList.contains("snip")) { picked.nextElementSibling.after(picked); sync(); e.preventDefault(); }
-      else if (e.key === "ArrowDown" && picked.previousElementSibling && picked.previousElementSibling.classList.contains("snip")) { picked.previousElementSibling.before(picked); sync(); e.preventDefault(); } });
-    btn.addEventListener("click", async () => { try { await navigator.clipboard.writeText(ta.value); } catch (_) { ta.select(); document.execCommand("copy"); } btn.textContent = "Copied ✓"; setTimeout(() => btn.textContent = "Copy picture lines", 1600); });
-    sync();
   }
 })();
 </script>

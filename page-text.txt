@@ -63,13 +63,9 @@ scroll hint: Scroll
 #  REPLACE a picture: upload the new image to the "pictures" folder
 #                     (Add file › Upload files), then change "file =" to its name.
 #  ADD a picture:     upload it, then add a new line, e.g.  picture 7: file = ...
-#  MOVE / RESIZE:     easiest visually: open
-#                     theindieconsultant.github.io/mywork/?arrange
-#                     drag the pictures, click "Copy picture lines",
-#                     and paste them here in place of these lines.
+#  EASIEST: open theindieconsultant.github.io/mywork/?edit to drag, resize,
+#           remove, replace or add pictures and edit these words, then Save.
 
-picture 1: file = prima-design-system.webp | caption = Prima design system · Aroris | style = card | left = 47 | top = 1 | width = 36 | tilt = 6
-picture 2: file = aroris-laptop-tablet.webp | caption = Agentic AI workflows · Aroris Health | style = cutout | left = -3 | top = 15 | width = 68 | tilt = -2
 picture 3: file = heatherlee-photo.webp | caption = hi, I’m Heatherlee | style = photo | left = 77 | top = 30 | width = 23 | tilt = 5
 picture 4: file = netra-design-system.webp | caption = Netra design system · Optum | style = card | left = 1 | top = 60 | width = 44 | tilt = -5
 picture 5: file = color-swatches.webp | caption = | style = cutout | left = 6 | top = 73 | width = 33 | tilt = -1
