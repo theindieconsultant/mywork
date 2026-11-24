@@ -65,10 +65,8 @@ scroll hint: Scroll
 #  EASIEST: open theindieconsultant.github.io/mywork/?edit to drag, resize,
 #           remove, replace or add pictures and edit these words, then Save.
 
-# All pictures are currently removed. Add one in the editor, or replace this line.
-picture 1: off
 
-
+picture 1: file = linkedin-feed-post-monie-hero-dark-1080-1350-2x-mwuz1i4i.webp | caption =  | style = card | left = 29.8 | top = 21.7 | width = 61 | tilt = 0
 
 # ---------- SECTION 1: METHODS ----------
 section 1 label: 01 / What I do
