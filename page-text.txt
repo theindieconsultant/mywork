@@ -92,7 +92,7 @@ section 2 description: A few of the outcomes inside the deck. The case studies s
 # Each result:  big number | text right after it (green) | small label above | description
 result 1: 15 | yrs | 2011 — today | designing B2B, enterprise and healthcare products
 result 2: $50 | M+ | OptumRx app | monthly revenue lift from the award-winning OptumRx app
-result 3: $86 | K | revenue recovery, Aroris Health | first BETA clients success
+result 3: $86 | K | Aroris Health | revenue recovery from Live Claims Monitoring, first BETA clients success
 result 4: 25 | + | Netra design system | platform teams building on the system I directed
 
 
@@ -111,3 +111,9 @@ footer: © 2026 Heatherlee Nguyen · HLUX · The Indie Consultant
 # ---------- WORK PICTURES ----------
 
 # ---------- WORK PICTURES ----------
+
+# ---------- WORK PICTURES ----------
+picture 1: file = heatherlee-photo.webp | caption = hi, I’m Heatherlee | style = photo | left = 77 | top = 30 | width = 23 | tilt = 5
+picture 2: file = netra-design-system.webp | caption = Netra design system · Optum | style = card | left = 1 | top = 60 | width = 44 | tilt = -5
+picture 3: file = color-swatches.webp | caption =  | style = cutout | left = 6 | top = 73 | width = 33 | tilt = -1
+picture 4: file = optum-clinical-dashboard.webp | caption = Optum Clinical Dashboard · UHC | style = cutout | left = 48 | top = 60 | width = 46 | tilt = 3
