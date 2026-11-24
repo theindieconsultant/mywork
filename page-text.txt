@@ -107,3 +107,5 @@ companies row 2: Best Buy | Securian Financial | General Mills | Calabrio | AARP
 closing heading: The full story is | *one password away.*
 closing button: Enter password
 footer: © 2026 Heatherlee Nguyen · HLUX · The Indie Consultant
+
+# ---------- WORK PICTURES ----------
