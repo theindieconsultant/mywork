@@ -109,3 +109,5 @@ closing button: Enter password
 footer: © 2026 Heatherlee Nguyen · HLUX · The Indie Consultant
 
 # ---------- WORK PICTURES ----------
+
+# ---------- WORK PICTURES ----------
