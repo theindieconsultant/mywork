@@ -74,9 +74,9 @@ section 1 heading: Methods to my *madness.*
 section 1 description: From the first user interview to the shipped feature sets, my work flows from discovery to beta and GA..
 
 # Each tile:  title | small sideways label
-tile 1: UX Design | IA + Interaction
+tile 1: UX/UI Design | IA + Interaction
 tile 2: User Research | User Interviews
-tile 3: Branding / Identity Design | Colors + Icons
+tile 3: Discovery Design | Iterative + Learning
 tile 4: Design Thinking | + Service Design
 tile 5: Design Workshops | Lead + Collaborate
 tile 6: Journey Mapping | Learn + Empathize
