@@ -37,9 +37,8 @@ password label: Password
 open button: Open
 device note: Note: This is best experienced on a desktop.
 
-# Tags under the password box. "neon tags" are the filled green ones.
-neon tags: Design Systems | Agentic AI UX | B2B & Enterprise SaaS | Design Leadership
-other tags: Human-in-the-Loop AI | UX Research | Design Tokens | Rapid Prototyping | Healthcare | Accessibility | Workshop Facilitation
+# Tags under the password box (all one style). Put | between tags.
+tags: Design Systems | Agentic AI UX | B2B & Enterprise SaaS | Design Leadership | Human-in-the-Loop AI | UX Research | Discovery Design | Rapid Prototyping | Workshop Facilitation
 
 # The green sticky note
 sticky note: Making the complex feel simple.
