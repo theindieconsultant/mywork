@@ -66,10 +66,6 @@ scroll hint: Scroll
 #  EASIEST: open theindieconsultant.github.io/mywork/?edit to drag, resize,
 #           remove, replace or add pictures and edit these words, then Save.
 
-picture 3: file = heatherlee-photo.webp | caption = hi, I’m Heatherlee | style = photo | left = 77 | top = 30 | width = 23 | tilt = 5
-picture 4: file = netra-design-system.webp | caption = Netra design system · Optum | style = card | left = 1 | top = 60 | width = 44 | tilt = -5
-picture 5: file = color-swatches.webp | caption = | style = cutout | left = 6 | top = 73 | width = 33 | tilt = -1
-picture 6: file = optum-clinical-dashboard.webp | caption = Optum Clinical Dashboard · UHC | style = cutout | left = 48 | top = 60 | width = 46 | tilt = 3
 
 
 # ---------- SECTION 1: METHODS ----------
@@ -106,6 +102,10 @@ companies row 1: Apple | Optum | UnitedHealth Group | Aroris Health | Target | M
 companies row 2: Best Buy | Securian Financial | General Mills | Calabrio | AARP | Bitovi
 
 
+picture 1: file = heatherlee-photo.webp | caption = hi, I’m Heatherlee | style = photo | left = 77 | top = 30 | width = 23 | tilt = 5
+picture 2: file = netra-design-system.webp | caption = Netra design system · Optum | style = card | left = 1 | top = 60 | width = 44 | tilt = -5
+picture 3: file = color-swatches.webp | caption =  | style = cutout | left = 6 | top = 73 | width = 33 | tilt = -1
+picture 4: file = optum-clinical-dashboard.webp | caption = Optum Clinical Dashboard · UHC | style = cutout | left = 48 | top = 60 | width = 46 | tilt = 3
 # ---------- CLOSING ----------
 # Use  |  to start a new line in the closing heading.
 closing heading: The full story is | *one password away.*
