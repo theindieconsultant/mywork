@@ -92,7 +92,7 @@ section 2 description: A few of the outcomes inside the deck. The case studies s
 # Each result:  big number | text right after it (green) | small label above | description
 result 1: 15 | yrs | 2011 — today | designing B2B, enterprise and healthcare products
 result 2: $50 | M+ | OptumRx app | monthly revenue lift from the award-winning OptumRx app
-result 3: $86K revenue recovery | Aroris Health | first BETA clients success
+result 3: $86 | K | revenue recovery, Aroris Health | first BETA clients success
 result 4: 25 | + | Netra design system | platform teams building on the system I directed
 
 
