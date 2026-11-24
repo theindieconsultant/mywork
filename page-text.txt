@@ -1,0 +1,93 @@
+#  ================================================================
+#   WORDS ON YOUR PASSWORD PAGE  (theindieconsultant.github.io/mywork)
+#  ================================================================
+#   How to edit:
+#   • Change only the text to the RIGHT of the first colon ( : ).
+#     Keep the name on the left exactly as it is.
+#   • Wrap words in *stars* to make them neon (in headings)
+#     or bold (in paragraphs). Example:  Methods to my *madness.*
+#   • In lists, put  |  between items.
+#   • Lines that start with # are notes for you; the site ignores them.
+#   • Leave the right side empty to keep the built-in text.
+#   • When you're done, click "Commit changes". The site updates in about
+#     a minute (refresh the page; if it still looks old, wait a minute more).
+#  ================================================================
+
+
+# ---------- TOP BAR ----------
+name: Heatherlee Nguyen
+tagline: the indie consultant
+location: Minneapolis–St. Paul, MN
+
+
+# ---------- FIRST SCREEN ----------
+kicker: Principal Product Designer · 15 yrs
+
+# The big headline reads:  [start]  [rotating word]  [end]
+headline start: I design
+headline rotating words: systems | AI agents | platforms | workflows
+headline end: that scale.
+
+intro paragraph: Principal Product Designer at *Aroris Health*, designing agentic AI workflows for healthcare. Previously on *Apple*’s enterprise B2B team (via Bitovi) and Creative Director of *Optum*’s Netra design system.
+
+# The password box
+password box title: Private portfolio
+password box subtitle: · case studies
+password label: Password
+open button: Open
+device note: Note: This is best experienced on a desktop.
+
+# Tags under the password box. "neon tags" are the filled green ones.
+neon tags: Design Systems | Agentic AI UX | B2B & Enterprise SaaS | Design Leadership
+other tags: Human-in-the-Loop AI | UX Research | Design Tokens | Rapid Prototyping | Healthcare | Accessibility | Workshop Facilitation
+
+# The green sticky note and the captions on the work pictures
+sticky note: Making the complex feel simple.
+sticky note small line: // since 2011
+caption design system picture: Prima design system · Aroris
+caption laptop and tablet: Agentic AI workflows · Aroris Health
+caption photo of you: hi, I’m Heatherlee
+caption netra picture: Netra design system · Optum
+caption dark tablet: Optum Clinical Dashboard · UHC
+scroll hint: Scroll
+
+
+# ---------- SECTION 1: METHODS ----------
+section 1 label: 01 / What I do
+section 1 heading: Methods to my *madness.*
+section 1 description: From the first user interview to the shipped component library: strategy, research, systems, and the craft in between.
+
+# Each tile:  title | small sideways label
+tile 1: UX Design | IA + Interaction
+tile 2: User Research | User Interviews
+tile 3: Visual UI Design | Colors + Icons
+tile 4: Design Thinking | + Service Design
+tile 5: Design Workshops | Lead + Collaborate
+tile 6: Journey Mapping | Learn + Empathize
+tile 7: Rapid Prototyping | Create + Iterate
+tile 8: Feedback Loops | Ask + Listen
+
+
+# ---------- SECTION 2: PROOF ----------
+section 2 label: 02 / Proof
+section 2 heading: Results, *measured.*
+section 2 description: A few of the outcomes inside the deck. The case studies show how we got there.
+
+# Each result:  big number | text right after it (green) | small label above | description
+result 1: 15 | yrs | 2011 — today | designing B2B, enterprise and healthcare products
+result 2: $50 | M+ | OptumRx app | monthly revenue lift from the award-winning OptumRx app
+result 3: 40 | /40 | Aroris Health | clients retained through renewal in year one
+result 4: 25 | + | Netra design system | platform teams building on the system I directed
+
+
+# ---------- COMPANIES ----------
+companies heading: Teams I’ve designed with
+companies row 1: Apple | Optum | UnitedHealth Group | Aroris Health | Target | Mayo Clinic
+companies row 2: Best Buy | Securian Financial | General Mills | Calabrio | AARP | Bitovi
+
+
+# ---------- CLOSING ----------
+# Use  |  to start a new line in the closing heading.
+closing heading: The full story is | *one password away.*
+closing button: Enter password
+footer: © 2026 Heatherlee Nguyen · HLUX · The Indie Consultant
