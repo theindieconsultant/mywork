@@ -41,15 +41,39 @@ device note: Note: This is best experienced on a desktop.
 neon tags: Design Systems | Agentic AI UX | B2B & Enterprise SaaS | Design Leadership
 other tags: Human-in-the-Loop AI | UX Research | Design Tokens | Rapid Prototyping | Healthcare | Accessibility | Workshop Facilitation
 
-# The green sticky note and the captions on the work pictures
+# The green sticky note
 sticky note: Making the complex feel simple.
 sticky note small line: // since 2011
-caption design system picture: Prima design system · Aroris
-caption laptop and tablet: Agentic AI workflows · Aroris Health
-caption photo of you: hi, I’m Heatherlee
-caption netra picture: Netra design system · Optum
-caption dark tablet: Optum Clinical Dashboard · UHC
 scroll hint: Scroll
+
+
+# ---------- WORK PICTURES (the collage on the right of the first screen) ----------
+#  One line per picture. Pictures with higher numbers sit on top of lower ones.
+#
+#   file    = the image's name inside the "pictures" folder on GitHub
+#   caption = the small label (leave empty for none)
+#   style   = card    (white frame with green tape)
+#             photo   (polaroid with a big handwritten-style caption)
+#             cutout  (no frame — best for device mockups with see-through backgrounds)
+#   left / top = where its top-left corner sits, in % of the picture area
+#   width      = how wide it is, in % of the picture area
+#   tilt       = rotation in degrees (minus tilts left)
+#
+#  REMOVE a picture:  delete its line, or write   picture 3: off
+#  REPLACE a picture: upload the new image to the "pictures" folder
+#                     (Add file › Upload files), then change "file =" to its name.
+#  ADD a picture:     upload it, then add a new line, e.g.  picture 7: file = ...
+#  MOVE / RESIZE:     easiest visually: open
+#                     theindieconsultant.github.io/mywork/?arrange
+#                     drag the pictures, click "Copy picture lines",
+#                     and paste them here in place of these lines.
+
+picture 1: file = prima-design-system.webp | caption = Prima design system · Aroris | style = card | left = 47 | top = 1 | width = 36 | tilt = 6
+picture 2: file = aroris-laptop-tablet.webp | caption = Agentic AI workflows · Aroris Health | style = cutout | left = -3 | top = 15 | width = 68 | tilt = -2
+picture 3: file = heatherlee-photo.webp | caption = hi, I’m Heatherlee | style = photo | left = 77 | top = 30 | width = 23 | tilt = 5
+picture 4: file = netra-design-system.webp | caption = Netra design system · Optum | style = card | left = 1 | top = 60 | width = 44 | tilt = -5
+picture 5: file = color-swatches.webp | caption = | style = cutout | left = 6 | top = 73 | width = 33 | tilt = -1
+picture 6: file = optum-clinical-dashboard.webp | caption = Optum Clinical Dashboard · UHC | style = cutout | left = 48 | top = 60 | width = 46 | tilt = 3
 
 
 # ---------- SECTION 1: METHODS ----------
